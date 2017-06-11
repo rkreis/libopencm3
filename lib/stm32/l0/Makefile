@@ -42,6 +42,7 @@ OBJS		+= timer_common_all.o
 
 OBJS            += gpio_common_all.o gpio_common_f0234.o rcc_common_all.o
 OBJS		+= adc_common_v2.o
+OBJS		+= crc_common_all.o
 OBJS		+= crs_common_all.o
 OBJS		+= exti_common_all.o
 OBJS		+= flash.o flash_common_l01.o
