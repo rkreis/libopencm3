@@ -243,7 +243,7 @@ void st_usbfs_poll(usbd_device *dev)
 		return;
 	}
 
-	if (istr & USB_ISTR_CTR) {
+	while (istr & USB_ISTR_CTR) {
 		uint8_t ep = istr & USB_ISTR_EP_ID;
 		uint8_t type;
 
@@ -264,6 +264,8 @@ void st_usbfs_poll(usbd_device *dev)
 		} else {
 			USB_CLR_EP_RX_CTR(ep);
 		}
+
+		istr = *USB_ISTR_REG;
 	}
 
 	if (istr & USB_ISTR_SUSP) {
