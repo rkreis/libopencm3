@@ -267,8 +267,9 @@ class TestControlTransfer_Reads(unittest.TestCase):
         """
         def inner(x):
             x = int(x)
-            q = self.dev.ctrl_transfer(self.req, GZ_REQ_PRODUCE, x, 0, x)
-            self.assertEqual(len(q), x, "Should have read as much as we asked for")
+            for i in range(10000):
+                q = self.dev.ctrl_transfer(self.req, GZ_REQ_PRODUCE, x, 0, x)
+                self.assertEqual(len(q), x, "Should have read as much as we asked for")
 
         ep0_size = self.dev.bMaxPacketSize0
         inner(ep0_size)
