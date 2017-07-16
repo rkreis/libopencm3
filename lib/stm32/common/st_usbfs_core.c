@@ -247,16 +247,13 @@ void st_usbfs_poll(usbd_device *dev)
 		uint8_t ep = istr & USB_ISTR_EP_ID;
 		uint8_t type;
 
-		if (istr & USB_ISTR_DIR) {
-			/* OUT or SETUP? */
-			if (*USB_EP_REG(ep) & USB_EP_SETUP) {
-				type = USB_TRANSACTION_SETUP;
-			} else {
-				type = USB_TRANSACTION_OUT;
-			}
-		} else {
-			type = USB_TRANSACTION_IN;
+		if (*USB_EP_REG(ep) & USB_EP_TX_CTR) {
 			USB_CLR_EP_TX_CTR(ep);
+			type = USB_TRANSACTION_IN;
+		} else if (*USB_EP_REG(ep) & USB_EP_SETUP) {
+			type = USB_TRANSACTION_SETUP;
+		} else {
+			type = USB_TRANSACTION_OUT;
 		}
 
 		if (dev->user_callback_ctr[ep][type]) {
