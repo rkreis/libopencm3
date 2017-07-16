@@ -299,6 +299,7 @@ void _usbd_control_in(usbd_device *usbd_dev, uint8_t ea)
 	case LAST_DATA_IN:
 		usbd_dev->control_state.state = STATUS_OUT;
 		usbd_ep_nak_set(usbd_dev, 0, 0);
+		for(volatile int i = 0; i < 100; ++i);
 		break;
 	case STATUS_IN:
 		if (usbd_dev->control_state.complete) {
